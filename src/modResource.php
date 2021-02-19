@@ -258,7 +258,7 @@ class modResource extends MODxAPI
     public function get($key)
     {
         $out = parent::get($key);
-        if (isset($this->tv[$key])) {
+        if (!isset($this->default_field[$key]) && isset($this->tv[$key])) {
             $tpl = $this->get('template');
             $tvTPL = APIhelpers::getkey($this->tvTpl, $tpl, []);
             $tvID = APIhelpers::getkey($this->tv, $key, 0);

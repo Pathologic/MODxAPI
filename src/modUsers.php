@@ -248,9 +248,15 @@ class modUsers extends MODxAPI
         while ($row = $this->modx->db->getRow($result)) {
             if ($this->belongsToTemplate($row['tmplvarid'])) {
                 $tv = $this->tvid[$row['tmplvarid']];
-                $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
+                if ($this->isNotTV($tv)) {
+                    $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
+                }
             }
         }
+    }
+
+    protected function isDefaultField($key) {
+        return !isset($this->default_field['user'][$tv]) && !isset($this->default_field['attribute'][$tv]);
     }
 
     protected function loadUserSettings()
@@ -349,8 +355,10 @@ class modUsers extends MODxAPI
      */
     public function get($key)
     {
-        $out = parent::get($key);
-        if (isset($this->tv[$key])) {
+        $out = null;
+        if ($this->isDefaultField($key)) {
+            $out = parent::get($key);
+        } elseif (isset($this->tv[$key])) {
             $tpl = $this->get('role');
             $tvTPL = APIhelpers::getkey($this->tvTpl, $tpl, []);
             $tvID = APIhelpers::getkey($this->tv, $key, 0);
@@ -646,7 +654,7 @@ class modUsers extends MODxAPI
                 $pluginFlag = (bool) $eventResult;
             }
             if (!$pluginFlag) {
-                $flag = ($tmp->get('password') == $tmp->getPassword($password));
+                $flag = $this->modx->getPasswordHash()->CheckPassword($password, $tmp->get('password'));
             }
         }
         unset($tmp);
