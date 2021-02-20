@@ -13,6 +13,7 @@ Add "pathologic/modxapi" to "require" section of your core/custom/composer.json,
 }
 ```
 ## Usage
+Update FormLister to the latest version.
 
 To use with FormLister set the model parameter in your snippet calls according to documentation:
 ```
