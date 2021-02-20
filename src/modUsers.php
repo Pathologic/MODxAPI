@@ -64,6 +64,7 @@ class modUsers extends MODxAPI
             'editedon'         => 0,
             'verified'         => 0
         ],
+        'settings'  => [],
         'hidden'    => [
             'internalKey'
         ]
@@ -224,7 +225,6 @@ class modUsers extends MODxAPI
                     $this->id = null;
                 } else {
                     $this->id = $this->field['id'];
-                    $this->set('editedon', time());
                 }
                 $this->loadUserSettings();
                 $this->loadUserTVs();
@@ -255,19 +255,31 @@ class modUsers extends MODxAPI
         }
     }
 
-    protected function isDefaultField($key) {
+    protected function isDefaultField($key)
+    {
         return !isset($this->default_field['user'][$tv]) && !isset($this->default_field['attribute'][$tv]);
     }
 
     protected function loadUserSettings()
     {
-        $webUser = $this->getID();
+        $user = $this->getID();
 
         if (!empty($webUser)) {
-            $settings = $this->modx->db->makeArray($this->modx->db->select('*', $this->makeTable('user_settings'),
-                "user = {$webUser}"));
-            $this->fromArray(array_column($settings, 'setting_value', 'setting_name'));
+            $q = $this->query("SELECT `setting_name`, `setting_value` FROM {$this->makeTable('user_settings')} WHERE `user` = {$webUser}");
+            while ($row = $this->modx->db->getRow($q)) {
+                $this->default_field['settings'][$row['setting_name']] = $row['setting_value'];
+            }
         }
+    }
+
+    /**
+     * @param $key
+     * @param  null  $default
+     * @return mixed
+     */
+    public function getConfig($key, $default = null)
+    {
+        return APIhelpers::getkey($this->default_field['settings'], $key, $default);
     }
 
     /**
@@ -348,7 +360,6 @@ class modUsers extends MODxAPI
         return $out;
     }
 
-
     /**
      * @param $key
      * @return mixed
@@ -410,6 +421,9 @@ class modUsers extends MODxAPI
             return false;
         }
         $this->set('sessionid', '');
+        if (!$this->newDoc) {
+            $this->set('editedon', time());
+        }
         $fld = $this->encodeFields()->toArray();
         foreach ($this->default_field['user'] as $key => $value) {
             $tmp = $this->get($key);
@@ -472,11 +486,12 @@ class modUsers extends MODxAPI
      * @param $field
      * @return bool
      */
-    public function isUnique($field) {
+    public function isUnique($field)
+    {
         $out = false;
         if (isset($this->default_field['user'][$field])) {
             $out = $this->checkUnique('users', $field);
-        } elseif(isset($this->default_field['user'][$field])) {
+        } elseif (isset($this->default_field['user'][$field])) {
             $out = $this->checkUnique('user_attributes', $field, 'primaryKey');
         }
 

@@ -360,8 +360,7 @@ class modResource extends MODxAPI
 
         $this->fromArray(array_merge($fld, $data));
         $this->set('createdby', $this->getLoginUserID())
-            ->set('createdon', $this->getTime(time()))
-            ->touch();
+            ->set('createdon', $this->getTime(time()));
 
         return $this;
     }
@@ -394,7 +393,6 @@ class modResource extends MODxAPI
                 $this->id = null;
             } else {
                 $this->id = $this->field['id'];
-                $this->set('editedby', null)->touch();
                 $this->decodeFields();
             }
             unset($this->field['id']);
@@ -430,6 +428,9 @@ class modResource extends MODxAPI
         }
 
         $this->set('alias', $this->getAlias());
+        if (!$this->newDoc) {
+            $this->set('editedby', (int)$this->getLoginUserID('web'))->touch();
+        }
 
         $this->invokeEvent('OnBeforeDocFormSave', [
             'mode'   => $this->newDoc ? "new" : "upd",
