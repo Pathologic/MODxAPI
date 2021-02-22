@@ -1,7 +1,21 @@
 # MODxAPI
 Legacy libs for Evolution CMS 3.0.
 
-To use with FormLister set the model parameter according to documentation:
+## Installation
+Add "pathologic/modxapi" to "require" section of your core/custom/composer.json, then run "composer update" in core folder:
+```
+{
+  "require": {
+    ...
+    "pathologic/modxapi": "*"
+    ...
+  }
+}
+```
+## Usage
+Update FormLister to the latest version.
+
+To use with FormLister set the model parameter in your snippet calls according to documentation:
 ```
 [!FormLister?
 &controller=`Login`
@@ -15,6 +29,7 @@ To use with FormLister set the model parameter according to documentation:
 &userModel=`Pathologic\EvolutionCMS\MODxAPI\modUsers`
 !]
 ```
+The same should be done with "model" parameter of userHelper plugin.
 
 To use somewhere else:
 ```
