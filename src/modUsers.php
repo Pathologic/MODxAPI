@@ -248,7 +248,7 @@ class modUsers extends MODxAPI
         while ($row = $this->modx->db->getRow($result)) {
             if ($this->belongsToTemplate($row['tmplvarid'])) {
                 $tv = $this->tvid[$row['tmplvarid']];
-                if ($this->isNotTV($tv)) {
+                if (!$this->isDefaultField($tv)) {
                     $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
                 }
             }
