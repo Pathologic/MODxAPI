@@ -886,7 +886,7 @@ class modUsers extends MODxAPI
      * @throws \AgelxNash\Modx\Evo\Database\Exceptions\Exception
      */
     public function setUserGroupsByName($userID = 0, $groupNames = []) {
-        if (!is_array($groupIds)) {
+        if (!is_array($groupNames)) {
             return $this;
         }
         if (empty($this->groups)) {
