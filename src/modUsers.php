@@ -493,7 +493,7 @@ class modUsers extends MODxAPI
         if (isset($this->default_field['user'][$field])) {
             $out = $this->checkUnique('users', $field);
         } elseif (isset($this->default_field['attribute'][$field])) {
-            $out = $this->checkUnique('user_attributes', $field, 'primaryKey');
+            $out = $this->checkUnique('user_attributes', $field, 'internalKey');
         }
 
         return $out;
