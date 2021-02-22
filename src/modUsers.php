@@ -74,6 +74,7 @@ class modUsers extends MODxAPI
      * @var string
      */
     protected $givenPassword = '';
+    protected $groups;
     protected $groupIds = [];
     protected $userIdCache = [
         'attribute.internalKey' => '',
@@ -248,7 +249,7 @@ class modUsers extends MODxAPI
         while ($row = $this->modx->db->getRow($result)) {
             if ($this->belongsToTemplate($row['tmplvarid'])) {
                 $tv = $this->tvid[$row['tmplvarid']];
-                if (!$this->isDefaultField($tv)) {
+                if (!$this->isDefaultField($key)) {
                     $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
                 }
             }
@@ -492,7 +493,7 @@ class modUsers extends MODxAPI
         if (isset($this->default_field['user'][$field])) {
             $out = $this->checkUnique('users', $field);
         } elseif (isset($this->default_field['attribute'][$field])) {
-            $out = $this->checkUnique('user_attributes', $field, 'internalKey');
+            $out = $this->checkUnique('user_attributes', $field, 'primaryKey');
         }
 
         return $out;
@@ -876,6 +877,29 @@ class modUsers extends MODxAPI
         unset($user);
 
         return $out;
+    }
+
+    /**
+     * @param  int  $userID
+     * @param  array  $groupNames
+     * @return $this
+     * @throws \AgelxNash\Modx\Evo\Database\Exceptions\Exception
+     */
+    public function setUserGroupsByName($userID = 0, $groupNames = []) {
+        if (!is_array($groupIds)) {
+            return $this;
+        }
+        if (empty($this->groups)) {
+            $q = $this->query("SELECT `id`,`name` FROM {$this->modx->getFullTableName('membergroup_names')}");
+            while ($this->modx->db->getRow($q)) {
+                $this->groups[$row['name']] = $row['id'];
+            }
+        }
+        $groupIds = [];
+        foreach ($groupNames as $group) {
+            $groupIds[] = $this->groups[$group];
+        }
+        return $this->setUserGroups($userID, $groupIds);
     }
 
     /**
