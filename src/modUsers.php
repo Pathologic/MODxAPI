@@ -249,7 +249,7 @@ class modUsers extends MODxAPI
         while ($row = $this->modx->db->getRow($result)) {
             if ($this->belongsToTemplate($row['tmplvarid'])) {
                 $tv = $this->tvid[$row['tmplvarid']];
-                if (!$this->isDefaultField($key)) {
+                if (!$this->isDefaultField($tv)) {
                     $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
                 }
             }
@@ -258,7 +258,7 @@ class modUsers extends MODxAPI
 
     protected function isDefaultField($key)
     {
-        return !isset($this->default_field['user'][$tv]) && !isset($this->default_field['attribute'][$tv]);
+        return $key === 'id' || $key === 'internalKey' || isset($this->default_field['user'][$key]) || isset($this->default_field['attribute'][$key]);
     }
 
     protected function loadUserSettings()
