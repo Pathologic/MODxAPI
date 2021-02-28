@@ -49,7 +49,7 @@ class modResource extends MODxAPI
         'publishedon'     => 0,
         'publishedby'     => 0,
         'menutitle'       => '',
-        'donthit'         => 0,
+        'hide_from_tree'  => 0,
         'privateweb'      => 0,
         'privatemgr'      => 0,
         'content_dispo'   => 0,
