@@ -359,7 +359,7 @@ class modResource extends MODxAPI
         $this->store($fld);
 
         $this->fromArray(array_merge($fld, $data));
-        $this->set('createdby', $this->getLoginUserID())
+        $this->set('createdby', $this->modx->getLoginUserID())
             ->set('createdon', $this->getTime(time()));
 
         return $this;
@@ -415,7 +415,7 @@ class modResource extends MODxAPI
             return false;
         }
 
-        $uid = $this->modx->getLoginUserID('mgr');
+        $uid = $this->modx->getLoginUserID();
 
         if (
             empty($this->field['parent']) &&
@@ -429,7 +429,7 @@ class modResource extends MODxAPI
 
         $this->set('alias', $this->getAlias());
         if (!$this->newDoc) {
-            $this->set('editedby', (int)$this->getLoginUserID('web'))->touch();
+            $this->set('editedby', (int)$this->modx->getLoginUserID())->touch();
         }
 
         $this->invokeEvent('OnBeforeDocFormSave', [
