@@ -778,7 +778,7 @@ class modUsers extends MODxAPI
                     $_SESSION['webLogincount'] = $this->get('logincount');
                     $_SESSION['webUsrConfigSet'] = [];
                     $_SESSION['webUserGroupNames'] = $this->getUserGroups();
-                    $_SESSION['webDocGroups'] = $this->getDocumentGroups();
+                    $_SESSION['webDocgroups'] = $this->getDocumentGroups();
                     if (!empty($remember)) {
                         $this->setAutoLoginCookie($cookieName, $remember);
                     }
@@ -796,7 +796,7 @@ class modUsers extends MODxAPI
                     unset($_SESSION['webLogincount']);
                     unset($_SESSION['webUsrConfigSet']);
                     unset($_SESSION['webUserGroupNames']);
-                    unset($_SESSION['webDocGroups']);
+                    unset($_SESSION['webDocgroups']);
 
                     setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
                 }
