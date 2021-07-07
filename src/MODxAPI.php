@@ -5,6 +5,7 @@ namespace Pathologic\EvolutionCMS\MODxAPI;
 use DocumentParser;
 use Illuminate\Support\Collection;
 use Doctrine\Common\Cache\Cache;
+use EvolutionCMS\Legacy\Cache as LegacyCache;
 
 /**
  * Class MODxAPI
@@ -295,8 +296,7 @@ abstract class MODxAPI
         $IDs = [];
         if ($custom === false) {
             $this->modx->clearCache();
-            include_once(MODX_MANAGER_PATH . 'processors/cache_sync.class.processor.php');
-            $sync = new synccache();
+            $sync = new LegacyCache();
             $path = $this->getCachePath(true);
             $sync->setCachepath($path);
             $sync->setReport(false);
