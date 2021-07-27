@@ -708,7 +708,7 @@ class modUsers extends MODxAPI
                     $fulltime = (int) $cookie[4];
                 }
                 $this->close();
-                $q = $this->modx->db->query("SELECT id FROM " . $this->makeTable('web_users') . " WHERE md5(username)='{$this->escape($cookie[0])}'");
+                $q = $this->modx->db->query("SELECT id FROM " . $this->makeTable('users') . " WHERE md5(username)='{$this->escape($cookie[0])}'");
                 $id = $this->modx->db->getValue($q);
                 if ($this->edit($id)
                     && null !== $this->getID()
