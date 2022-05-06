@@ -846,7 +846,7 @@ class modUsers extends MODxAPI
             $group_access = $this->modx->getFullTableName('membergroup_access');
 
             $sql = "SELECT `uga`.`documentgroup` FROM {$groups} as `ug`
-                INNER JOIN {$group_access} as `uga` ON `uga`.`membergroup`=`ug`.`user_group`
+                INNER JOIN {$group_access} as `uga` ON `uga`.`membergroup`=`ug`.`user_group` AND `uga`.`context`= 1
                 WHERE `ug`.`member` = " . $user->getID();
             $out = $this->modx->db->getColumn('documentgroup', $this->query($sql));
         }
