@@ -431,13 +431,16 @@ class modResource extends MODxAPI
         if (!$this->newDoc) {
             $this->set('editedby', (int)$this->modx->getLoginUserID())->touch();
         }
+        $data = $this->toArray();
 
         $this->invokeEvent('OnBeforeDocFormSave', [
             'mode'   => $this->newDoc ? "new" : "upd",
             'id'     => isset($this->id) ? $this->id : '',
-            'doc'    => $this->toArray(),
+            'doc'    => &$data,
             'docObj' => $this
         ], $fire_events);
+
+        $this->fromArray($data);
 
         $fld = $this->encodeFields()->toArray(null, null, null, false);
         foreach ($this->default_field as $key => $value) {
