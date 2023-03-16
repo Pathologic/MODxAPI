@@ -247,7 +247,7 @@ class modUsers extends MODxAPI
         $id = (int) $this->get('internalKey');
         $result = $this->query("SELECT * from {$this->makeTable('user_values')} where `userid`=" . (int) $id);
         while ($row = $this->modx->db->getRow($result)) {
-            if ($this->belongsToTemplate($row['tmplvarid'])) {
+            if ($this->belongsToTemplate($row['tmplvarid']) && isset($this->tvid[$row['tmplvarid']])) {
                 $tv = $this->tvid[$row['tmplvarid']];
                 if (!$this->isDefaultField($tv)) {
                     $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
