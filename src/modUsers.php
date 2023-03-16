@@ -779,6 +779,8 @@ class modUsers extends MODxAPI
                     $_SESSION['webUsrConfigSet'] = [];
                     $_SESSION['webUserGroupNames'] = $this->getUserGroups();
                     $_SESSION['webDocgroups'] = $this->getDocumentGroups();
+                    $_SESSION['webPermissions'] = $this->getPermissions();
+                        
                     if (!empty($remember)) {
                         $this->setAutoLoginCookie($cookieName, $remember);
                     }
@@ -797,6 +799,7 @@ class modUsers extends MODxAPI
                     unset($_SESSION['webUsrConfigSet']);
                     unset($_SESSION['webUserGroupNames']);
                     unset($_SESSION['webDocgroups']);
+                    unset($_SESSION['webPermissions']);
 
                     setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
                 }
@@ -804,6 +807,21 @@ class modUsers extends MODxAPI
         }
 
         return $this;
+    }
+    
+    /**
+     * @return array
+     */
+    publis function getPermissions()
+    {
+        $out = [];
+        $role = (int)$this->get('role', 0);
+        $q = $this->modx->db->query("SELECT `permission` FROM " . $this->makeTable('role_permissions') . " WHERE `role_id`={$role}");
+        while($row = $this->modx->db->getRow($q)) {
+            $out[$row['permission']] = 1;
+        }
+        
+        return $out;
     }
 
     /**
