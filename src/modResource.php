@@ -659,10 +659,10 @@ class modResource extends MODxAPI
             (int) $this->modxConfig('unauthorized_page'),
             (int) $this->modxConfig('site_unavailable_page')
         ];
-        $data = $this->query("SELECT DISTINCT setting_value FROM {$this->makeTable('web_user_settings')} WHERE `setting_name`='login_home' AND `setting_value`!=''");
+        $data = $this->query("SELECT DISTINCT setting_value FROM {$this->makeTable('user_settings')} WHERE `setting_name`='login_home' AND `setting_value`!=''");
         $data = $this->modx->db->makeArray($data);
         foreach ($data as $item) {
-            $ignore[] = (int) $item['setting_value'];
+            $ignore[] = (int)$item['setting_value'];
         }
 
         return array_unique($ignore);
