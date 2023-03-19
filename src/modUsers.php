@@ -812,7 +812,7 @@ class modUsers extends MODxAPI
     /**
      * @return array
      */
-    publis function getPermissions()
+    public function getPermissions()
     {
         $out = [];
         $role = (int)$this->get('role', 0);
