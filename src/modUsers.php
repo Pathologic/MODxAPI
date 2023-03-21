@@ -774,6 +774,7 @@ class modUsers extends MODxAPI
                     $_SESSION['webFullname'] = $this->get('fullname');
                     $_SESSION['webEmail'] = $this->get('email');
                     $_SESSION['webValidated'] = 1;
+                    $_SESSION['webRole'] = $this->get('role');
                     $_SESSION['webInternalKey'] = $this->getID();
                     $_SESSION['webFailedlogins'] = $this->get('failedlogincount');
                     $_SESSION['webLastlogin'] = $this->get('lastlogin');
@@ -794,6 +795,7 @@ class modUsers extends MODxAPI
                     unset($_SESSION['webFullname']);
                     unset($_SESSION['webEmail']);
                     unset($_SESSION['webValidated']);
+                    unset($_SESSION['webRole']);
                     unset($_SESSION['webInternalKey']);
                     unset($_SESSION['webFailedlogins']);
                     unset($_SESSION['webLastlogin']);
