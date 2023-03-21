@@ -376,6 +376,8 @@ class modUsers extends MODxAPI
             $tvID = APIhelpers::getkey($this->tv, $key, 0);
             if (!in_array($tvID, $tvTPL)) {
                 $out = null;
+            } else {
+               $out = parent::get($key); 
             }
         }
 
