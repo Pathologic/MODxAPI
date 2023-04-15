@@ -790,23 +790,21 @@ class modUsers extends MODxAPI
                 }
                 break;
             case 'destroy':
-                if (isset($_SESSION['webValidated'])) {
-                    unset($_SESSION['webShortname']);
-                    unset($_SESSION['webFullname']);
-                    unset($_SESSION['webEmail']);
-                    unset($_SESSION['webValidated']);
-                    unset($_SESSION['webRole']);
-                    unset($_SESSION['webInternalKey']);
-                    unset($_SESSION['webFailedlogins']);
-                    unset($_SESSION['webLastlogin']);
-                    unset($_SESSION['webLogincount']);
-                    unset($_SESSION['webUsrConfigSet']);
-                    unset($_SESSION['webUserGroupNames']);
-                    unset($_SESSION['webDocgroups']);
-                    unset($_SESSION['webPermissions']);
+                unset($_SESSION['webShortname']);
+                unset($_SESSION['webFullname']);
+                unset($_SESSION['webEmail']);
+                unset($_SESSION['webValidated']);
+                unset($_SESSION['webRole']);
+                unset($_SESSION['webInternalKey']);
+                unset($_SESSION['webFailedlogins']);
+                unset($_SESSION['webLastlogin']);
+                unset($_SESSION['webLogincount']);
+                unset($_SESSION['webUsrConfigSet']);
+                unset($_SESSION['webUserGroupNames']);
+                unset($_SESSION['webDocgroups']);
+                unset($_SESSION['webPermissions']);
 
-                    setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
-                }
+                setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
                 break;
         }
 
