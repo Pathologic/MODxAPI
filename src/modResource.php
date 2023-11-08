@@ -826,7 +826,7 @@ class modResource extends MODxAPI
             if ($this->isTVarrayField($field)) {
                 $out = strpos($data, '||') !== false ? explode('||', $data) : $data;
             } else {
-                $out = json_dcode($data, true) ?? [];
+                $out = json_decode($data, true) ?? [];
             }
         }
         if ($store) {
