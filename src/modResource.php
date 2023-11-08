@@ -265,7 +265,6 @@ class modResource extends MODxAPI
                 $out = $out['default'];
             }
         }
-
         return $out;
     }
 
@@ -825,9 +824,9 @@ class modResource extends MODxAPI
         if ($this->isDecodableField($field)) {
             $data = $this->get($field);
             if ($this->isTVarrayField($field)) {
-                $out = explode('||', $data);
+                $out = strpos($data, '||') !== false ? explode('||', $data) : $data;
             } else {
-                $out = jsonHelper::jsonDecode($data, ['assoc' => true], true);
+                $out = json_dcode($data, true) ?? [];
             }
         }
         if ($store) {
