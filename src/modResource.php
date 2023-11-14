@@ -13,10 +13,6 @@ class modResource extends MODxAPI
     use ContentTV;
 
     /**
-     * @var string
-     */
-    protected $mode = 'new';
-    /**
      * @var array
      */
     protected $default_field = [
@@ -527,16 +523,11 @@ class modResource extends MODxAPI
             $this->query("DELETE FROM {$this->makeTable('site_tmplvar_contentvalues')} WHERE `contentid` = '{$this->id}' AND `tmplvarid` IN ({$ids})");
         }
 
-        if (!isset($this->mode)) {
-            $this->mode = $this->newDoc ? "new" : "upd";
-            $this->newDoc = false;
-        }
-
         if (!empty($this->groupIds)) {
             $this->setDocumentGroups($this->id, $this->groupIds);
         }
         $this->invokeEvent('OnDocFormSave', [
-            'mode'   => $this->mode,
+            'mode'   => $this->newDoc ? "new" : "upd",
             'id'     => isset($this->id) ? $this->id : '',
             'doc'    => $this->toArray(),
             'docObj' => $this
